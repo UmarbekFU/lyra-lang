@@ -1,0 +1,7 @@
+-- Module import demo
+import "math_utils"
+
+println("5! = {to_string(factorial(5))}")
+println("square(7) = {to_string(square(7))}")
+println("cube(3) = {to_string(cube(3))}")
+println("abs(-42) = {to_string(abs(-42))}")

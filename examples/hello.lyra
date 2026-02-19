@@ -1,0 +1,8 @@
+-- Hello World in Lyra
+println("Hello, World!")
+println("Welcome to Lyra!")
+
+-- Basic arithmetic
+let x = 42
+let y = 10
+println(to_string(x + y))

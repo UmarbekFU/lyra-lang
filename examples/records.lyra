@@ -1,0 +1,24 @@
+-- Record types showcase
+
+-- Basic record creation and field access
+let person = { name: "Alice", age: 30 }
+println("Name: {person.name}")
+println("Age: {to_string(person.age)}")
+
+-- Nested records
+let employee = {
+  person: { name: "Bob", age: 25 },
+  title: "Engineer",
+  salary: 90000,
+}
+println("{employee.person.name} is a {employee.title}")
+
+-- Records in functions
+let greet = fn (p) -> "Hello, {p.name}! You are {to_string(p.age)} years old."
+println(greet(person))
+
+-- Record with computed fields
+let x = 10
+let y = 20
+let point = { x: x, y: y, sum: x + y }
+println("Point: ({to_string(point.x)}, {to_string(point.y)}), sum = {to_string(point.sum)}")

@@ -1,0 +1,16 @@
+-- Pipe operator and higher-order functions
+
+let result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  |> filter(fn (x) -> x % 2 == 0)
+  |> map(fn (x) -> x * x)
+  |> fold(0, fn (acc, x) -> acc + x)
+
+-- Sum of squares of even numbers from 1 to 10
+-- 4 + 16 + 36 + 64 + 100 = 220
+println(to_string(result))
+
+-- Using range and pipes
+let squares = range(1, 6)
+  |> map(fn (x) -> x * x)
+
+println(to_string(squares))

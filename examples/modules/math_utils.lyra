@@ -1,0 +1,8 @@
+-- Math utility functions
+let rec factorial = fn (n) -> if n <= 1 then 1 else n * factorial(n - 1)
+
+let square = fn (x) -> x * x
+
+let cube = fn (x) -> x * x * x
+
+let abs = fn (x) -> if x < 0 then 0 - x else x

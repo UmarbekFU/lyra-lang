@@ -1,0 +1,89 @@
+-- ============================================
+-- Lyra VM Benchmark
+-- Tests performance of the bytecode VM
+-- ============================================
+
+-- 1. Fibonacci (recursive, exponential)
+let rec fib = fn (n) ->
+  if n <= 1 then n
+  else fib(n - 1) + fib(n - 2)
+
+let fib30 = fib(30)
+println("fib(30) = {to_string(fib30)}")
+
+-- 2. Factorial (tail-recursive via TCO)
+let rec factorial = fn (n, acc) ->
+  if n <= 1 then acc
+  else factorial(n - 1, n * acc)
+
+println("20! = {to_string(factorial(20, 1))}")
+
+-- 3. Sum of list via fold
+let big_list = range(1, 1001)
+let total = fold(0, fn (acc, x) -> acc + x, big_list)
+println("sum(1..1000) = {to_string(total)}")
+
+-- 4. Map + filter pipeline
+let squares_of_evens = range(1, 101)
+  |> filter(fn (x) -> x % 2 == 0)
+  |> map(fn (x) -> x * x)
+  |> fold(0, fn (acc, x) -> acc + x)
+println("sum of squares of evens 1..100 = {to_string(squares_of_evens)}")
+
+-- 5. Quicksort
+let rec quicksort = fn (lst) ->
+  match lst with
+  | [] -> []
+  | pivot :: rest ->
+    let less = filter(fn (x) -> x < pivot, rest) in
+    let greater = filter(fn (x) -> x >= pivot, rest) in
+    append(append(quicksort(less), [pivot]), quicksort(greater))
+
+let unsorted = [38, 27, 43, 3, 9, 82, 10, 1, 45, 72, 56, 31, 18, 64, 95, 7]
+let sorted_result = quicksort(unsorted)
+println("sorted: {to_string(sorted_result)}")
+
+-- 6. List generation and processing
+let big = range(0, 500)
+let doubled = map(fn (x) -> x * 2, big)
+let filtered = filter(fn (x) -> x % 3 == 0, doubled)
+let result = sum(filtered)
+println("sum of doubled multiples of 3 in 0..500: {to_string(result)}")
+
+-- 7. Nested function calls (closure stress test)
+let make_counter = fn (start) ->
+  fn (step) ->
+    fn (times) ->
+      fold(start, fn (acc, i) -> acc + step, range(0, times))
+
+let counter = make_counter(0)(3)(100)
+println("counter(0, step=3, 100 times) = {to_string(counter)}")
+
+-- 8. ADT construction + pattern matching
+type Tree = Leaf Int | Node Tree Tree
+
+let rec tree_sum = fn (t) ->
+  match t with
+  | Leaf(n) -> n
+  | Node(l, r) -> tree_sum(l) + tree_sum(r)
+
+let tree = Node(Node(Leaf(1), Leaf(2)), Node(Leaf(3), Node(Leaf(4), Leaf(5))))
+println("tree sum = {to_string(tree_sum(tree))}")
+
+-- 9. String operations
+let words = str_split("the quick brown fox jumps over the lazy dog", " ")
+let upper_words = map(fn (w) -> str_uppercase(w), words)
+let joined = fold("", fn (acc, w) -> if acc == "" then w else str_concat(acc, str_concat(" ", w)), upper_words)
+println("uppercase: {joined}")
+
+-- 10. New stdlib showcase
+let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+println("take(3): {to_string(take(3, nums))}")
+println("drop(7): {to_string(drop(7, nums))}")
+println("sum: {to_string(sum(nums))}")
+println("product(1..5): {to_string(product([1, 2, 3, 4, 5]))}")
+println("any(>5): {to_string(any(fn (x) -> x > 5, nums))}")
+println("all(>0): {to_string(all(fn (x) -> x > 0, nums))}")
+println("flatten: {to_string(flatten([[1,2],[3,4],[5]]))}")
+
+println("\nBenchmark complete!")

@@ -1,0 +1,14 @@
+-- Factorial using recursion and pattern matching
+let rec factorial = fn (n) ->
+  match n with
+  | 0 -> 1
+  | n -> n * factorial(n - 1)
+
+println(to_string(factorial(10)))
+
+-- Fibonacci
+let rec fib = fn (n) ->
+  if n <= 1 then n
+  else fib(n - 1) + fib(n - 2)
+
+println(to_string(fib(20)))

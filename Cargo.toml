@@ -1,0 +1,20 @@
+[package]
+name = "lyra"
+version = "10.0.0"
+edition = "2021"
+description = "A functional programming language with Hindley-Milner type inference"
+license = "MIT"
+
+[[bin]]
+name = "lyra"
+path = "src/main.rs"
+
+[lib]
+name = "lyra"
+path = "src/lib.rs"
+
+[dependencies]
+rustyline = "14"
+
+[dev-dependencies]
+pretty_assertions = "1"

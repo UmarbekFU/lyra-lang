@@ -1,0 +1,14 @@
+-- Algebraic Data Types in Lyra
+
+type Option a = Some a | None
+
+type List a = Cons a (List a) | Nil
+
+-- Pattern matching on ADTs
+let describe = fn (opt) ->
+  match opt with
+  | Some(x) -> str_concat("Got: ", to_string(x))
+  | None -> "Nothing"
+
+println(describe(Some(42)))
+println(describe(None))

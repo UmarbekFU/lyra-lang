@@ -1,0 +1,101 @@
+-- ============================================
+-- Lyra Language Showcase
+-- A functional programming language in Rust
+-- ============================================
+
+-- 1. Basic values and arithmetic
+let answer = 42
+let pi = 3.14159
+let greeting = "Hello, Lyra!"
+let active = true
+
+println(greeting)
+println(to_string(answer))
+
+-- 2. First-class functions and closures
+let double = fn (x) -> x * 2
+let add = fn (a, b) -> a + b
+let compose = fn (f, g) -> fn (x) -> f(g(x))
+
+let double_then_add10 = compose(fn (x) -> x + 10, double)
+println(to_string(double_then_add10(5)))
+
+-- 3. Recursion with pattern matching
+let rec factorial = fn (n) ->
+  match n with
+  | 0 -> 1
+  | n -> n * factorial(n - 1)
+
+println(str_concat("10! = ", to_string(factorial(10))))
+
+-- 4. List operations with pipe operator
+let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let sum_of_squares = nums
+  |> map(fn (x) -> x * x)
+  |> fold(0, fn (acc, x) -> acc + x)
+
+println(str_concat("Sum of squares 1-10: ", to_string(sum_of_squares)))
+
+-- 5. Algebraic data types
+type Shape = Circle Int | Rectangle Int Int | Triangle Int Int
+
+let area = fn (shape) ->
+  match shape with
+  | Circle(r) -> r * r * 3
+  | Rectangle(w, h) -> w * h
+  | Triangle(b, h) -> b * h / 2
+
+println(str_concat("Circle area: ", to_string(area(Circle(5)))))
+println(str_concat("Rectangle area: ", to_string(area(Rectangle(4, 6)))))
+println(str_concat("Triangle area: ", to_string(area(Triangle(3, 8)))))
+
+-- 6. Cons operator and list patterns
+let rec sum_list = fn (lst) ->
+  match lst with
+  | [] -> 0
+  | hd :: tl -> hd + sum_list(tl)
+
+println(str_concat("Sum of [1,2,3,4,5]: ", to_string(sum_list([1, 2, 3, 4, 5]))))
+
+-- 7. Higher-order functions
+let rec quicksort = fn (lst) ->
+  match lst with
+  | [] -> []
+  | pivot :: rest ->
+    let less = filter(fn (x) -> x < pivot, rest) in
+    let greater = filter(fn (x) -> x >= pivot, rest) in
+    append(append(quicksort(less), [pivot]), quicksort(greater))
+
+let sorted = quicksort([3, 6, 8, 10, 1, 2, 1])
+println(str_concat("Sorted: ", to_string(sorted)))
+
+-- 8. Let expressions
+let result =
+  let x = 10 in
+  let y = 20 in
+  let z = x + y in
+  z * 2
+
+println(str_concat("Result: ", to_string(result)))
+
+-- 9. Boolean logic
+let is_even = fn (n) -> n % 2 == 0
+let is_positive = fn (n) -> n > 0
+
+let check = fn (n) ->
+  if is_even(n) && is_positive(n) then "even and positive"
+  else if is_even(n) then "even"
+  else "odd"
+
+println(check(4))
+println(check(-2))
+println(check(3))
+
+-- 10. Fibonacci with memoization-like approach
+let rec fib = fn (n) ->
+  if n <= 1 then n
+  else fib(n - 1) + fib(n - 2)
+
+let fib_list = range(0, 10) |> map(fib)
+println(str_concat("First 10 Fibonacci numbers: ", to_string(fib_list)))
